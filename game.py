@@ -2,17 +2,27 @@ from random import choice
 
 
 class RPS:
-    cpu = choice(["rock", "paper", "scissors"])
     beats = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
+    choices = ["rock", "paper", "scissors"]
 
     def game(self, user_choice):
-        if user_choice == self.cpu:
-            print(f"There is a draw {self.cpu}")
-        elif self.beats[user_choice] == self.cpu:
-            print(f"Well done. Computer chose {self.cpu} and failed")
+        cpu = choice(self.choices)
+        if user_choice not in self.choices:
+            print("Invalid input!")
+            pass
         else:
-            print(f"Sorry, but computer chose {self.cpu}")
+            if user_choice == cpu:
+                print(f"There is a draw {cpu}")
+            elif self.beats[user_choice] == cpu:
+                print(f"Well done. Computer chose {cpu} and failed")
+            else:
+                print(f"Sorry, but computer chose {cpu}")
 
 
 game = RPS()
-game.game(input())
+while True:
+    user_input = input()
+    if user_input == "!exit":
+        print("Bye!")
+        break
+    game.game(user_input)
