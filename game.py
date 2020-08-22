@@ -2,11 +2,13 @@ from random import choice
 
 
 class RPS:
-    beats = {"rock": "scissors", "paper": "rock", "scissors": "paper"}
-    choices = ["rock", "paper", "scissors"]
+    symbols = ["rock", "fire", "scissors", "snake", "human", "tree", "wolf", "sponge",
+               "paper", "air", "water", "dragon", "devil", "lightning", "gun"]
 
     def __init__(self):
         self.points = 0
+        self.game_options = None
+        self.choices = None
 
     def welcome(self):
         user_name = input("Enter your name: ")
@@ -16,6 +18,14 @@ class RPS:
             if user_name in line:
                 self.points = int(line.split()[1])
         file.close()
+
+    def options(self):
+        user_input = input()
+        if user_input == "":
+            self.choices = ["rock", "paper", "scissors"]
+        else:
+            self.choices = list(user_input.split(","))
+        print("Okay, let's start")
 
     def game(self):
         while True:
@@ -31,10 +41,11 @@ class RPS:
                 if user_input not in self.choices:
                     print("Invalid input!")
                 else:
+                    offset = (self.choices.index(cpu) - self.choices.index(user_input)) % len(self.choices)
                     if user_input == cpu:
                         print(f"There is a draw {cpu}")
                         self.points += 50
-                    elif self.beats[user_input] == cpu:
+                    elif offset > len(self.choices) // 2:
                         print(f"Well done. Computer chose {cpu} and failed")
                         self.points += 100
                     else:
@@ -43,4 +54,5 @@ class RPS:
 
 game = RPS()
 game.welcome()
+game.options()
 game.game()
